@@ -27,7 +27,6 @@ namespace ProjectManagment.Data
 
         public void DisplayAllTaskNames()
         {
-
             Console.WriteLine("List of all Tasks");
             int i = 1;
 
@@ -38,8 +37,9 @@ namespace ProjectManagment.Data
             }
         }
 
-        public Model.Task UpdateTask(Model.Task updateTask, int updateNo, string updateString)
+        public Model.Task UpdateTask(int taskNo, int updateNo, string updateString)
         {
+            Model.Task updateTask = TaskList[taskNo];
             switch (updateNo)
             {
                 case 1:
@@ -54,15 +54,23 @@ namespace ProjectManagment.Data
             }
             return updateTask;
         }
-        public Model.Task UpdateTask(Model.Task updateTask, DateTime updateDueDate)
+        public Model.Task UpdateTask(int taskNo, DateTime updateDueDate)
         {
+            Model.Task updateTask = TaskList[taskNo];
             updateTask.DueDate = updateDueDate;
             return updateTask;
         }
-        public Model.Task UpdateTask(Model.Task updateTask,Constants.PriorityEnum updatePriority)
+        public Model.Task UpdateTask(int taskNo,Constants.PriorityEnum updatePriority)
         {
+            Model.Task updateTask = TaskList[taskNo];
             updateTask.Priority = updatePriority;
             return updateTask;
+        }
+
+
+        public void Delete(int deleteNumber)
+        {
+            TaskList.RemoveAt(deleteNumber);
         }
 
 

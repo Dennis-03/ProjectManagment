@@ -17,7 +17,7 @@ namespace ProjectManagment
 
             do
             {
-                Console.WriteLine("Enter Your Choice\n1.Create New Task \n2.List All Task \n3.Update Task\n0.Quit");
+                Console.WriteLine("Enter Your Choice\n1.Create New Task \n2.List All Task \n3.Update Task\n4.Delete Task\n0.Quit");
                 option = Convert.ToInt32(Console.ReadLine());
 
                 switch (option)
@@ -58,16 +58,7 @@ namespace ProjectManagment
                         break;
 
                     case 3:
-                        List<Model.Task> taskNames = taskManager.ListAllTasks();
-
-                        Console.WriteLine("List of all Tasks");
-                        int i = 1;
-
-                        foreach (var task in taskNames)
-                        {
-                            Console.WriteLine($"{i}:{ task.TaskString}");
-                            i++;
-                        }
+                        taskManager.DisplayAllTaskNames();
 
                         Console.WriteLine("Enter the task Number for updating");
                         int taskNumber = Convert.ToInt32(Console.ReadLine());
@@ -78,7 +69,7 @@ namespace ProjectManagment
                         {
                             Console.WriteLine("Enter the new string");
                             string updateString = Console.ReadLine();
-                            taskManager.UpdateTask(taskNames[taskNumber - 1], updateNo, updateString);
+                            taskManager.UpdateTask(taskNumber - 1, updateNo, updateString);
                         }
                         else if (updateNo == 5)
                         {
@@ -90,22 +81,21 @@ namespace ProjectManagment
                             int newYear = Convert.ToInt32(Console.ReadLine());
                             DateTime newDueDate = new DateTime(newYear, newMonth, newDate);
 
-                            taskManager.UpdateTask(taskNames[taskNumber - 1], newDueDate);
+                            taskManager.UpdateTask(taskNumber - 1, newDueDate);
                         }
                         else 
                         {
                             Console.WriteLine("Enter the New Priority");
                             Constants.PriorityEnum newPriority = Enum.Parse<Constants.PriorityEnum>(Console.ReadLine());
-
-                            taskManager.UpdateTask(taskNames[taskNumber - 1], newPriority);
+                            taskManager.UpdateTask(taskNumber - 1, newPriority);
                         }
+
                         break;
 
                     case 4:
                         taskManager.DisplayAllTaskNames();
-
-
-
+                        int deleteNumber = Convert.ToInt32(Console.ReadLine());
+                        taskManager.Delete(--deleteNumber);
                         break;
                 }
             } while (option != 0); 
