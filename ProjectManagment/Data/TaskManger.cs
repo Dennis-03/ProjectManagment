@@ -7,18 +7,20 @@ namespace ProjectManagment.Data
     class TaskManger
     {
         List<Model.Task> TaskList = new List<Model.Task>();
+        List<Model.Comment> CommentList = new List<Model.Comment>();
+
 
         public void AddTask(string taskString, Constants.PriorityEnum priority, string assignedTo, string assignedBy, DateTime assignedDate, DateTime dueDate)
         {
-            Model.Task myTask = new Model.Task();
-            myTask.TaskString = taskString;
-            myTask.AssignedTo = assignedTo;
-            myTask.AssignedBy = assignedBy;
-            myTask.AssignedDate = assignedDate;
-            myTask.DueDate = dueDate;
-            myTask.Priority = priority;
+            Model.Task addTask = new Model.Task();
+            addTask.TaskString = taskString;
+            addTask.AssignedTo = assignedTo;
+            addTask.AssignedBy = assignedBy;
+            addTask.AssignedDate = assignedDate;
+            addTask.DueDate = dueDate;
+            addTask.Priority = priority;
 
-            TaskList.Add(myTask);
+            TaskList.Add(addTask);
         }
         public List<Model.Task> ListAllTasks()
         {
@@ -73,6 +75,17 @@ namespace ProjectManagment.Data
             TaskList.RemoveAt(deleteNumber);
         }
 
+        public long GetTaskID(int taskNo)
+        {
+            return TaskList[taskNo].ID;
+        }
+        public void AddComment(int taskNo,string commentString)
+        {
+            Model.Comment addComment = new Model.Comment();
+            addComment.CommentString = commentString;
+            addComment.TaskID = GetTaskID(taskNo);
 
+            CommentList.Add(addComment);
+        }
     }
 }

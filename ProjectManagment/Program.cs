@@ -17,7 +17,7 @@ namespace ProjectManagment
 
             do
             {
-                Console.WriteLine("Enter Your Choice\n1.Create New Task \n2.List All Task \n3.Update Task\n4.Delete Task\n0.Quit");
+                Console.WriteLine("Enter Your Choice\n1.Create New Task \n2.List All Task \n3.Update Task\n4.Delete Task\n5.Comment on a Task\n0.Quit");
                 option = Convert.ToInt32(Console.ReadLine());
 
                 switch (option)
@@ -97,6 +97,18 @@ namespace ProjectManagment
                         int deleteNumber = Convert.ToInt32(Console.ReadLine());
                         taskManager.Delete(--deleteNumber);
                         break;
+
+                    case 5:
+                        taskManager.DisplayAllTaskNames();
+                        int commentTask = Convert.ToInt32(Console.ReadLine());
+
+                        Console.WriteLine("Enter the Comment String");
+                        string commentString = Console.ReadLine();
+
+                        taskManager.AddComment(commentTask, commentString);
+
+                        break;
+
                 }
             } while (option != 0); 
         }
