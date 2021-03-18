@@ -17,7 +17,7 @@ namespace ProjectManagment
 
             do
             {
-                Console.WriteLine("Enter Your Choice\n1.Create New Task \n2.List All Task \n3.Update Task\n4.Delete Task\n5.Comment on a Task\n0.Quit");
+                Console.WriteLine("Enter Your Choice\n1.Create New Task \n2.List All Task \n3.Update Task\n4.Delete Task\n5.Comment on a Task\n6.Reply to a Comment\n7.View a Specific Task\n0.Quit");
                 option = Convert.ToInt32(Console.ReadLine());
 
                 switch (option)
@@ -109,6 +109,28 @@ namespace ProjectManagment
 
                         break;
 
+                    case 6:
+                        taskManager.DisplayAllTaskNames();
+                        Console.WriteLine("Enter the task");
+                        int replyTask = Convert.ToInt32(Console.ReadLine());
+
+                        taskManager.ListComments(replyTask);
+
+                        int replyComment = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("Enter the Reply String");
+                        string replyString = Console.ReadLine();
+
+                        taskManager.AddReply(replyComment, replyString);
+                        
+                        break;
+
+                    case 7:
+                        taskManager.DisplayAllTaskNames();
+                        Console.WriteLine("Enter the Specific task Number");
+                        int taskNo = Convert.ToInt32(Console.ReadLine());
+                        taskManager.DisplayTask(taskNo);
+
+                        break;
                 }
             } while (option != 0); 
         }

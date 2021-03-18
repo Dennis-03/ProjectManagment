@@ -8,6 +8,7 @@ namespace ProjectManagment.Data
     {
         List<Model.Task> TaskList = new List<Model.Task>();
         List<Model.Comment> CommentList = new List<Model.Comment>();
+        List<Model.Reply> ReplyList = new List<Model.Reply>();
 
 
         public void AddTask(string taskString, Constants.PriorityEnum priority, string assignedTo, string assignedBy, DateTime assignedDate, DateTime dueDate)
@@ -83,9 +84,65 @@ namespace ProjectManagment.Data
         {
             Model.Comment addComment = new Model.Comment();
             addComment.CommentString = commentString;
-            addComment.TaskID = GetTaskID(taskNo);
+            addComment.TaskID = GetTaskID(--taskNo);
 
             CommentList.Add(addComment);
+        }
+
+        public long GetCommentID(int commentNo)
+        {
+            return CommentList[commentNo].ID;
+        }
+
+        public void ListComments(int taskNo)
+        {
+            int i = 1;
+            long taskID = GetTaskID(--taskNo);
+            foreach(var comment in CommentList)
+            {
+                if (comment.TaskID == taskID)
+                {
+                    Console.WriteLine($"{i}.{comment.CommentString}");
+                    i++;
+                }
+            }
+        }
+        public void AddReply(int commentNo,string replyString)
+        {
+            Model.Reply addReply = new Model.Reply();
+            addReply.ReplyString = replyString;
+            addReply.CommentID = GetCommentID(--commentNo);
+
+            ReplyList.Add(addReply);
+        }
+
+        public void DisplayTask(int taskNo)
+        {
+            taskNo--;
+            Console.WriteLine($"Task Name : {TaskList[taskNo].TaskString}");
+            Console.WriteLine($"Priority : {TaskList[taskNo].Priority}");
+            Console.WriteLine($"Assigned To : {TaskList[taskNo].AssignedTo}");
+            Console.WriteLine($"Assigned By : {TaskList[taskNo].AssignedBy}");
+            Console.WriteLine($"Due Date : {TaskList[taskNo].DueDate}");
+            Console.WriteLine($"Assigned Date : {TaskList[taskNo].AssignedDate}");
+
+            Console.WriteLine("The comments for the task are");
+            long taskID = GetTaskID(taskNo);
+            foreach(var comment in CommentList)
+            {
+                if (comment.TaskID == taskID)
+                {
+                    Console.WriteLine(comment.CommentString);
+                    foreach(var reply in ReplyList)
+                    {
+                        if (comment.ID == reply.CommentID)
+                        {
+                            Console.WriteLine($"-{reply.ReplyString}");
+                        }
+                    }
+                }
+            }
+
         }
     }
 }
