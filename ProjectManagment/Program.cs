@@ -29,7 +29,7 @@ namespace ProjectManagment
                         string assignedTo = Console.ReadLine();
                         Console.WriteLine("Assigned By");
                         string assignedBy = Console.ReadLine();
-                        Console.WriteLine("Priority of the Task(Low//Medium//High)");
+                        Console.WriteLine("Priority of the Task(Low/Medium/High)");
                         Constants.PriorityEnum Priority = Enum.Parse<Constants.PriorityEnum>(Console.ReadLine());
 
                         Console.WriteLine("Due Date(1-31)");

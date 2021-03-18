@@ -123,8 +123,8 @@ namespace ProjectManagment.Data
             Console.WriteLine($"Priority : {TaskList[taskNo].Priority}");
             Console.WriteLine($"Assigned To : {TaskList[taskNo].AssignedTo}");
             Console.WriteLine($"Assigned By : {TaskList[taskNo].AssignedBy}");
-            Console.WriteLine($"Due Date : {TaskList[taskNo].DueDate}");
-            Console.WriteLine($"Assigned Date : {TaskList[taskNo].AssignedDate}");
+            Console.WriteLine($"Due Date : {TaskList[taskNo].DueDate.ToString("dd-MMM-yyyy")}");
+            Console.WriteLine($"Assigned Date : {TaskList[taskNo].AssignedDate.ToString("dd-MMM-yyyy")}");
 
             Console.WriteLine("The comments for the task are");
             long taskID = GetTaskID(taskNo);
