@@ -11,8 +11,8 @@ namespace ProjectManagment.Model
         public long Id = DateTime.Now.Ticks;
         public string TaskName { get; set; }
         public PriorityEnum Priority;
-        public string AssignedTo { get; set; }
-        public string AssignedBy { get; set; }
+        public uint AssignedTo { get; set; }
+        public uint AssignedBy { get; set; }
         public DateTime AssignedDate { get; set; }
         public DateTime DueDate { get; set; }
     }

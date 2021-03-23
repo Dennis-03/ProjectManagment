@@ -5,7 +5,6 @@ using ProjectManagment.Constants;
 using ProjectManagment.Model;
 
 
-
 namespace ProjectManagment
 {
     class Program
@@ -13,17 +12,20 @@ namespace ProjectManagment
         static void Main(string[] args)
         {
             TaskManager taskManager = new TaskManager();
-            UserManager userManger = new UserManager();
+            UserManager userManager = new UserManager();
+            CommentManager commentManager = new CommentManager();
 
-            userManger.AddUser("dennis", "123");
-            userManger.AddUser("saravana", "123");
+            userManager.AddUser("dennis", "123");
+            userManager.AddUser("saravana", "123");
 
             Console.WriteLine("Enter your User Name");
             string username= Console.ReadLine();
             Console.WriteLine("Enter your Password");
             string password = Console.ReadLine();
 
-            if (userManger.VerifyUser(username, password))
+            uint userId=userManager.VerifyUser(username,password);
+
+            if (userId!=0)
             {
                 int option;
 
@@ -38,9 +40,7 @@ namespace ProjectManagment
                             Console.WriteLine("Enter Name of the task");
                             string taskName = Console.ReadLine();
                             Console.WriteLine("Assigned To ");
-                            string assignedTo = Console.ReadLine();
-                            Console.WriteLine("Assigned By");
-                            string assignedBy = Console.ReadLine();
+                            uint assignedTo = Convert.ToUInt32( Console.ReadLine());
                             Console.WriteLine("Priority of the Task(Low/Medium/High)");
                             PriorityEnum Priority = Enum.Parse<PriorityEnum>(Console.ReadLine());
 
@@ -52,7 +52,7 @@ namespace ProjectManagment
                             int year = Convert.ToInt32(Console.ReadLine());
                             DateTime dueDate = new DateTime(year, month, date);
 
-                            taskManager.AddTask(taskName, Priority, assignedTo, assignedBy, DateTime.Now, dueDate);
+                            taskManager.AddTask(taskName, Priority, assignedTo, userId, DateTime.Now, dueDate);
                             break;
 
                         case 2:
@@ -73,70 +73,68 @@ namespace ProjectManagment
                         case 3:
 
                             Console.WriteLine("Enter the task Id for updating");
-                            int taskNumber = Convert.ToInt32(Console.ReadLine());
-                            Console.WriteLine("1.Update Task\n2.Update Priority\n3.Update Assigned To\n4.Update Assigned By\n5.Update Due date");
+                            long taskId = Convert.ToInt64(Console.ReadLine());
+                            Console.WriteLine("1.Update Task\n2.Update Priority\n3.Update Assigned To\n4.Update Due date");
                             int updateNo = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("Enter the new data");
+                            string newData = Console.ReadLine();
 
-                            if (updateNo == 1 || updateNo == 3 || updateNo == 4)
+                            ZTask updateTask= taskManager.GetZTask(taskId);
+                            switch (updateNo)
                             {
-                                Console.WriteLine("Enter the new string");
-                                string updateString = Console.ReadLine();
-                                taskManager.UpdateTask(taskNumber - 1, updateNo, updateString);
-                            }
-                            else if (updateNo == 5)
-                            {
-                                Console.WriteLine("Due Date(1-31)");
-                                int newDate = Convert.ToInt32(Console.ReadLine());
-                                Console.WriteLine("Due Month(1-12)");
-                                int newMonth = Convert.ToInt32(Console.ReadLine());
-                                Console.WriteLine("Due Date(YYYY)");
-                                int newYear = Convert.ToInt32(Console.ReadLine());
-                                DateTime newDueDate = new DateTime(newYear, newMonth, newDate);
-
-                                taskManager.UpdateTask(taskNumber - 1, newDueDate);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Enter the New Priority");
-                                Constants.PriorityEnum newPriority = Enum.Parse<Constants.PriorityEnum>(Console.ReadLine());
-                                taskManager.UpdateTask(taskNumber - 1, newPriority);
+                                case 1:
+                                    updateTask.TaskName = newData;
+                                    taskManager.UpdateTask(updateTask);
+                                    break;
+                                case 2:
+                                    updateTask.Priority = Enum.Parse<PriorityEnum>(newData);
+                                    taskManager.UpdateTask(updateTask);
+                                    break;
+                                case 3:
+                                    updateTask.AssignedTo = Convert.ToUInt32(newData);
+                                    taskManager.UpdateTask(updateTask);
+                                    break;
+                                case 4:
+                                    updateTask.DueDate = Convert.ToDateTime(newData);
+                                    taskManager.UpdateTask(updateTask);
+                                    break;
                             }
 
                             break;
 
                         case 4:
-                            int deleteNumber = Convert.ToInt32(Console.ReadLine());
-                            taskManager.Delete(--deleteNumber);
+
+                            long deleteTaskId = Convert.ToInt64(Console.ReadLine());
+                            taskManager.DeleteTask(deleteTaskId);
                             break;
 
                         case 5:
-                            int commentTask = Convert.ToInt32(Console.ReadLine());
+                            long commentTaskId = Convert.ToInt32(Console.ReadLine());
 
                             Console.WriteLine("Enter the Comment String");
                             string commentString = Console.ReadLine();
 
-                            taskManager.AddComment(commentTask, commentString);
+                            commentManager.AddComment(commentTaskId, commentString);
 
                             break;
 
                         case 6:
                             Console.WriteLine("Enter the task");
-                            int replyTask = Convert.ToInt32(Console.ReadLine());
+                            long replyTaskId = Convert.ToInt32(Console.ReadLine());
 
-                            taskManager.ListComments(replyTask);
-
-                            int replyComment = Convert.ToInt32(Console.ReadLine());
+                            int commentId = Convert.ToInt32(Console.ReadLine());
                             Console.WriteLine("Enter the Reply String");
                             string replyString = Console.ReadLine();
 
-                            taskManager.AddReply(replyComment, replyString);
+                            commentManager.AddReply(commentId, replyTaskId, replyString);
 
                             break;
 
                         case 7:
                             Console.WriteLine("Enter the Specific task Number");
-                            int taskNo = Convert.ToInt32(Console.ReadLine());
-                            taskManager.DisplayTask(taskNo);
+                            long specTaskId= Convert.ToInt32(Console.ReadLine());
+                            ZTask task = taskManager.GetZTask(specTaskId);
+                            List<Comment> commetList = commentManager.ListComments(specTaskId);
 
                             break;
                     }
@@ -147,8 +145,6 @@ namespace ProjectManagment
             {
                 Console.WriteLine("Password or Username Incorrect");
             }
-
-             
         }
     }
 }

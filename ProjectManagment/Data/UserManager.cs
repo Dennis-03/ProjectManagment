@@ -21,16 +21,16 @@ namespace ProjectManagment.Data
             UserList.Add(addUser);
         }
 
-        public bool VerifyUser(string userName,string password)
+        public uint VerifyUser(string userName,string password)
         {
             foreach(var user in UserList)
             {
                 if (user.UserName == userName && user.Password==password)
                 {
-                    return true;
+                    return user.Id;
                 }
             }
-            return false;
+            return 0;
         }
     }
 }
