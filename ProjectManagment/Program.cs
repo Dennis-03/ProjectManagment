@@ -15,8 +15,8 @@ namespace ProjectManagment
             UserManager userManager = new UserManager();
             CommentManager commentManager = new CommentManager();
 
-            userManager.AddUser("dennis", "123");
-            userManager.AddUser("saravana", "123");
+            userManager.AddUser("dennis", "dennis");
+            userManager.AddUser("saravana", "saravana");
 
             Console.WriteLine("Enter your User Name");
             string username= Console.ReadLine();
@@ -61,12 +61,15 @@ namespace ProjectManagment
 
                             Console.WriteLine("List of all Tasks");
 
-                            foreach (var task in allTasks)
+                            foreach (var ztask in allTasks)
                             {
-                                Console.WriteLine($"Task Name:{ task.Id}");
-                                Console.WriteLine($"Task Name:{ task.TaskName}");
-                                Console.WriteLine($"Assigned To:{ task.AssignedTo}");
-                                Console.WriteLine($"Assigned By:{ task.AssignedBy}\n");
+                                Console.WriteLine($"Task Id:{ ztask.Id}");
+                                Console.WriteLine($"Task Name:{ ztask.TaskName}");
+                                Console.WriteLine($"Priority:{ ztask.Priority}");
+                                Console.WriteLine($"Assigned To:{ ztask.AssignedTo}");
+                                Console.WriteLine($"Assigned By:{ ztask.AssignedBy}");
+                                Console.WriteLine($"Assigned Date:{ ztask.AssignedDate}");
+                                Console.WriteLine($"Due Date:{ ztask.DueDate}\n");
                             }
                             break;
 
@@ -109,7 +112,7 @@ namespace ProjectManagment
                             break;
 
                         case 5:
-                            long commentTaskId = Convert.ToInt32(Console.ReadLine());
+                            long commentTaskId = Convert.ToInt64(Console.ReadLine());
 
                             Console.WriteLine("Enter the Comment String");
                             string commentString = Console.ReadLine();
@@ -120,9 +123,9 @@ namespace ProjectManagment
 
                         case 6:
                             Console.WriteLine("Enter the task");
-                            long replyTaskId = Convert.ToInt32(Console.ReadLine());
+                            long replyTaskId = Convert.ToInt64(Console.ReadLine());
 
-                            int commentId = Convert.ToInt32(Console.ReadLine());
+                            long commentId = Convert.ToInt64(Console.ReadLine());
                             Console.WriteLine("Enter the Reply String");
                             string replyString = Console.ReadLine();
 
@@ -132,9 +135,24 @@ namespace ProjectManagment
 
                         case 7:
                             Console.WriteLine("Enter the Specific task Number");
-                            long specTaskId= Convert.ToInt32(Console.ReadLine());
+                            long specTaskId= Convert.ToInt64(Console.ReadLine());
                             ZTask task = taskManager.GetZTask(specTaskId);
-                            List<Comment> commetList = commentManager.ListComments(specTaskId);
+                            List<Comment> commentList = commentManager.ListComments(specTaskId);
+
+                            Console.WriteLine($"Task Id:{ task.Id}");
+                            Console.WriteLine($"Task Name:{ task.TaskName}");
+                            Console.WriteLine($"Priority:{ task.Priority}");
+                            Console.WriteLine($"Assigned To:{ task.AssignedTo}");
+                            Console.WriteLine($"Assigned By:{ task.AssignedBy}");
+                            Console.WriteLine($"Assigned Date:{ task.AssignedDate}");
+                            Console.WriteLine($"Due Date:{ task.DueDate}\n");
+
+                            foreach(var comment in commentList)
+                            {
+                                Console.WriteLine(comment.CommentString);
+                                Console.WriteLine(comment.ParentId);
+                                Console.WriteLine(comment.Id);
+                            }
 
                             break;
                     }

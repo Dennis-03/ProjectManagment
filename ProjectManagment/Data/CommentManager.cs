@@ -10,9 +10,11 @@ namespace ProjectManagment.Data
         List<Comment> CommentList = new List<Comment>();
         public void AddComment(long taskId, string commentString)
         {
-            Comment addComment = new Comment();
-            addComment.CommentString = commentString;
-            addComment.TaskID = taskId;
+            Comment addComment = new Comment
+            {
+                CommentString = commentString,
+                TaskID = taskId
+            };
 
             CommentList.Add(addComment);
         }

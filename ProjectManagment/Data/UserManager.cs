@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using ProjectManagment.Model;
+using System.Security.Cryptography;
 
 namespace ProjectManagment.Data
 {
@@ -13,7 +14,7 @@ namespace ProjectManagment.Data
         {
             User addUser = new User
             {
-                Password = password,
+                Password =password,
                 UserName = userName,
                 Id = id++,
             };
