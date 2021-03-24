@@ -8,6 +8,15 @@ namespace ProjectManagment.Data
 {
     class UserManager
     {
+        private static readonly UserManager instance = new UserManager();
+        private UserManager()
+        {
+        }
+        public static UserManager GetUserManager()
+        {
+            return instance;
+        }
+
         List<User> UserList = new List<User>();
         uint id = 1;
         public void AddUser(string userName,string password)
@@ -22,16 +31,16 @@ namespace ProjectManagment.Data
             UserList.Add(addUser);
         }
 
-        public uint VerifyUser(string userName,string password)
+        public User VerifyUser(string userName,string password)
         {
             foreach(var user in UserList)
             {
                 if (user.UserName == userName && user.Password==password)
                 {
-                    return user.Id;
+                    return user;
                 }
             }
-            return 0;
+            return null;
         }
     }
 }

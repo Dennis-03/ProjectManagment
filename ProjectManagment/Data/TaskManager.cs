@@ -8,7 +8,16 @@ namespace ProjectManagment.Data
 {
     class TaskManager
     {
-        List<ZTask> TaskList = new List<ZTask>();
+        private static readonly TaskManager instance = new TaskManager();
+        private TaskManager()
+        {
+        }
+        public static TaskManager GetTaskManager()
+        {
+            return instance;
+        }
+
+        private List<ZTask> TaskList = new List<ZTask>();
 
         public void AddTask(string taskString, PriorityEnum priority, uint assignedTo, uint assignedBy, DateTime assignedDate, DateTime dueDate)
         {

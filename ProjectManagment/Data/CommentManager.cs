@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using System.Text;
 using ProjectManagment.Model;
+using ProjectManagment.Data;
 
 namespace ProjectManagment.Data
 {
     class CommentManager
     {
-        List<Comment> CommentList = new List<Comment>();
+        private static readonly CommentManager instance = new CommentManager();
+        private CommentManager()
+        {
+        }
+        public static CommentManager GetCommentManager()
+        {
+            return instance;
+        }
+
+        //List<Comment> CommentList = new List<Comment>();
+        TaskManager taskManager  = TaskManager.GetTaskManager();
         public void AddComment(long taskId, string commentString)
         {
             Comment addComment = new Comment
             {
                 CommentString = commentString,
-                TaskID = taskId
+                TaskID = taskId,
+                commentedDateTime = DateTime.Now
             };
-
-            CommentList.Add(addComment);
+            ZTask zTask= taskManager.GetZTask(taskId);
+            zTask.comment.Add(addComment);
         }
 
         public void AddReply(long commentId,long taskId, string replyString)
@@ -25,23 +37,11 @@ namespace ProjectManagment.Data
             {
                 CommentString = replyString,
                 TaskID = taskId,
-                ParentId = commentId
+                ParentId = commentId,
+                commentedDateTime=DateTime.Now
             };
-
-            CommentList.Add(addReply);
-        }
-
-        public List<Comment> ListComments(long taskId)
-        {
-            List<Comment> returnComment = new List<Comment>();
-            foreach(var comment in CommentList)
-            {
-                if (comment.TaskID == taskId)
-                {
-                    returnComment.Add(comment);
-                }
-            }
-            return returnComment;
+            ZTask zTask = taskManager.GetZTask(taskId);
+            zTask.comment.Add(addReply);
         }
     }
 }

@@ -10,5 +10,6 @@ namespace ProjectManagment.Model
         public long ParentId { get; set; }
         public long TaskID { get; set; }
         public string CommentString { get; set; }
+        public DateTime commentedDateTime { get; set; }
     }
 }
