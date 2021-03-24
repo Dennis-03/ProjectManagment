@@ -11,5 +11,6 @@ namespace ProjectManagment.Model
         public long TaskID { get; set; }
         public string CommentString { get; set; }
         public DateTime commentedDateTime { get; set; }
+        public List<Reaction> Reaction { get; set; }
     }
 }

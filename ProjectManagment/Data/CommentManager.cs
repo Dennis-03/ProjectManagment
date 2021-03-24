@@ -17,7 +17,6 @@ namespace ProjectManagment.Data
             return instance;
         }
 
-        //List<Comment> CommentList = new List<Comment>();
         TaskManager taskManager  = TaskManager.GetTaskManager();
         public void AddComment(long taskId, string commentString)
         {
@@ -28,7 +27,7 @@ namespace ProjectManagment.Data
                 commentedDateTime = DateTime.Now
             };
             ZTask zTask= taskManager.GetZTask(taskId);
-            zTask.comment.Add(addComment);
+            zTask.Comment.Add(addComment);
         }
 
         public void AddReply(long commentId,long taskId, string replyString)
@@ -41,7 +40,13 @@ namespace ProjectManagment.Data
                 commentedDateTime=DateTime.Now
             };
             ZTask zTask = taskManager.GetZTask(taskId);
-            zTask.comment.Add(addReply);
+            zTask.Comment.Add(addReply);
+        }
+
+        public Comment GetComment(long commentId,long taskId)
+        {
+            ZTask task= taskManager.GetZTask(taskId);
+            return task.Comment.Find(comment=>comment.Id==commentId); 
         }
     }
 }

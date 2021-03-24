@@ -16,6 +16,7 @@ namespace ProjectManagment.Model
         public uint AssignedBy { get; set; }
         public DateTime AssignedDate { get; set; }
         public DateTime DueDate { get; set; }
-        public List<Comment> comment { get; set; }
+        public List<Comment> Comment { get; set; }
+        public List<Reaction> Reaction { get; set; }
     }
 }
