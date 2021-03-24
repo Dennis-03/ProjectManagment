@@ -68,15 +68,7 @@ namespace ProjectManagment.Data
 
         public void DeleteTask(long taskId)
         {
-            int i = 0;
-            foreach(var task in TaskList)
-            {
-                i++;
-                if (task.Id == taskId)
-                {
-                    TaskList.RemoveAt(i);
-                }
-            }
+            TaskList.RemoveAll(task=>task.Id==taskId);
         }
     }
 }

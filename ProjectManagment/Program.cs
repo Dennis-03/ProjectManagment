@@ -4,7 +4,6 @@ using ProjectManagment.Data;
 using ProjectManagment.Constants;
 using ProjectManagment.Model;
 
-
 namespace ProjectManagment
 {
     class Program
