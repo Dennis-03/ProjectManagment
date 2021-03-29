@@ -7,13 +7,13 @@ namespace ProjectManagment.Data
 {
     class UserManager
     {
-        private static readonly UserManager instance = new UserManager();
+        private static readonly UserManager _instance = new UserManager();
         private UserManager()
         {
         }
         public static UserManager GetUserManager()
         {
-            return instance;
+            return _instance;
         }
 
         List<User> UserList = new List<User>();

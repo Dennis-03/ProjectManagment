@@ -13,11 +13,12 @@ namespace ProjectManagment
             TaskManager taskManager = TaskManager.GetTaskManager();
             UserManager userManager = UserManager.GetUserManager();
             CommentManager commentManager = CommentManager.GetCommentManager();
+            ReactionManager reactionManager = ReactionManager.GetReactionManager();
 
             userManager.AddUser("dennis", "dennis");
             userManager.AddUser("saravana", "saravana");
 
-            User loginUser;
+            User newUser;
 
             do
             {
@@ -25,15 +26,15 @@ namespace ProjectManagment
                 string username = Console.ReadLine();
                 Console.WriteLine("Enter your Password");
                 string password = Console.ReadLine();
-                loginUser = userManager.VerifyUser(username, password);
+                newUser = userManager.VerifyUser(username,password);
 
-            } while (loginUser == null);
+            } while (newUser == null);
 
             int option;
 
             do
             {
-                Console.WriteLine("Enter Your Choice\n1.Create New Task \n2.List All Task \n3.Update Task\n4.Delete Task\n5.Comment on a Task\n6.Reply to a Comment\n7.View a Specific Task\n0.Quit");
+                Console.WriteLine("\nEnter Your Choice\n1.Create New Task \n2.List All Task \n3.Update Task\n4.Delete Task\n5.Comment on a Task\n6.Reply to a Comment\n7.View a Specific Task\n8.Like a Task\n9.Like a Comment\n0.Quit");
                 option = Convert.ToInt32(Console.ReadLine());
 
                 switch (option)
@@ -41,7 +42,7 @@ namespace ProjectManagment
                     case 1:
                         Console.WriteLine("Enter Name of the task");
                         string taskName = Console.ReadLine();
-                        Console.WriteLine("Assigned To ");
+                        Console.WriteLine("Assigned To (User Id)");
                         uint assignedTo = Convert.ToUInt32( Console.ReadLine());
                         Console.WriteLine("Priority of the Task(Low/Medium/High)");
                         PriorityEnum Priority = Enum.Parse<PriorityEnum>(Console.ReadLine());
@@ -54,7 +55,8 @@ namespace ProjectManagment
                         int year = Convert.ToInt32(Console.ReadLine());
                         DateTime dueDate = new DateTime(year, month, date);
 
-                        taskManager.AddTask(taskName, Priority, assignedTo, loginUser.Id, DateTime.Now, dueDate);
+                        taskManager.AddTask(taskName, Priority, assignedTo, newUser.Id, DateTime.Now, dueDate);
+
                         break;
 
                     case 2:
@@ -65,7 +67,7 @@ namespace ProjectManagment
 
                         foreach (var ztask in allTasks)
                         {
-                            Console.WriteLine($"Task Id:{ ztask.Id}");
+                            Console.WriteLine($"Task Id: { ztask.Id}");
                             Console.WriteLine($"Task Name:{ ztask.TaskName}");
                             Console.WriteLine($"Priority:{ ztask.Priority}");
                             Console.WriteLine($"Assigned To:{ ztask.AssignedTo}");
@@ -106,25 +108,26 @@ namespace ProjectManagment
                         break;
 
                     case 4:
-
+                        Console.WriteLine("Enter the task ID:");
                         long deleteTaskId = Convert.ToInt64(Console.ReadLine());
                         taskManager.DeleteTask(deleteTaskId);
                         break;
 
                     case 5:
+                        Console.WriteLine("Enter the task ID:");
                         long commentTaskId = Convert.ToInt64(Console.ReadLine());
 
                         Console.WriteLine("Enter the Comment String");
                         string commentString = Console.ReadLine();
 
-                        commentManager.AddComment(commentTaskId, commentString);
+                        commentManager.AddComment(commentTaskId,commentString);
 
                         break;
 
                     case 6:
-                        Console.WriteLine("Enter the task");
+                        Console.WriteLine("Enter the task ID:");
                         long replyTaskId = Convert.ToInt64(Console.ReadLine());
-
+                        Console.WriteLine("Enter the Comment ID:");
                         long replyCommentId = Convert.ToInt64(Console.ReadLine());
                         Console.WriteLine("Enter the Reply String");
                         string replyString = Console.ReadLine();
@@ -138,21 +141,40 @@ namespace ProjectManagment
                         long specTaskId= Convert.ToInt64(Console.ReadLine());
                         ZTask task = taskManager.GetZTask(specTaskId);
 
-                        Console.WriteLine($"Task Id:{ task.Id}");
+                        Console.WriteLine($"Task Id: { task.Id}");
                         Console.WriteLine($"Task Name:{ task.TaskName}");
                         Console.WriteLine($"Priority:{ task.Priority}");
                         Console.WriteLine($"Assigned To:{ task.AssignedTo}");
                         Console.WriteLine($"Assigned By:{ task.AssignedBy}");
                         Console.WriteLine($"Assigned Date:{ task.AssignedDate}");
-                        Console.WriteLine($"Due Date:{ task.DueDate}\n");
+                        Console.WriteLine($"Due Date:{ task.DueDate}");
+                        Console.WriteLine($"No of Likes: {task.Reaction.Count}");
 
-                        foreach(var comment in task.comment)
+                        if (task.Comment != null)
                         {
-                            Console.WriteLine(comment.CommentString);
-                            Console.WriteLine(comment.ParentId);
-                            Console.WriteLine(comment.commentedDateTime);
-                            Console.WriteLine(comment.Id);
+                            foreach (var comment in task.Comment)
+                            {
+                                Console.WriteLine($"Comment Id: {comment.Id}");
+                                Console.WriteLine($"Comment : { comment.CommentString}");
+                                Console.WriteLine($"Comment Parent Id : {comment.ParentId}");
+                                Console.WriteLine($"Commented Time {comment.commentedDateTime}");
+                                Console.WriteLine($"No of likes {comment.Reaction.Count}\n");
+                            }
                         }
+
+                        break;
+                    case 8:
+                        Console.WriteLine("Enter the task ID:");
+                        long likeTaskId = Convert.ToInt64(Console.ReadLine());
+                        reactionManager.AddReactionToTask(newUser.Id, likeTaskId);
+
+                        break;
+                    case 9:
+                        Console.WriteLine("Enter the task ID:");
+                        long likeCommentTaskId = Convert.ToInt64(Console.ReadLine());
+                        Console.WriteLine("Enter the Comment ID:");
+                        long likeCommentId = Convert.ToInt64(Console.ReadLine());
+                        reactionManager.AddReactionToComment(newUser.Id,likeCommentId,likeCommentTaskId);
 
                         break;
                 }

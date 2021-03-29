@@ -8,13 +8,13 @@ namespace ProjectManagment.Data
 {
     class CommentManager
     {
-        private static readonly CommentManager instance = new CommentManager();
+        private static readonly CommentManager _instance = new CommentManager();
         private CommentManager()
         {
         }
         public static CommentManager GetCommentManager()
         {
-            return instance;
+            return _instance;
         }
 
         TaskManager taskManager  = TaskManager.GetTaskManager();
@@ -28,6 +28,7 @@ namespace ProjectManagment.Data
             };
             ZTask zTask= taskManager.GetZTask(taskId);
             zTask.Comment.Add(addComment);
+            taskManager.UpdateTask(zTask);
         }
 
         public void AddReply(long commentId,long taskId, string replyString)

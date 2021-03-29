@@ -16,7 +16,11 @@ namespace ProjectManagment.Model
         public uint AssignedBy { get; set; }
         public DateTime AssignedDate { get; set; }
         public DateTime DueDate { get; set; }
-        public List<Comment> Comment { get; set; }
-        public List<Reaction> Reaction { get; set; }
+
+        private List<Comment> _Comment = new List<Comment>();
+        public List<Comment> Comment { get { return _Comment; } set { _Comment = value; } }
+
+        private List<Reaction> _Reaction = new List<Reaction>();
+        public List<Reaction> Reaction { get { return _Reaction; } set { _Reaction = value; } }
     }
 }

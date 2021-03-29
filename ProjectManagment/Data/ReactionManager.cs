@@ -8,12 +8,19 @@ namespace ProjectManagment.Data
 {
     class ReactionManager
     {
+        private static readonly ReactionManager _instance = new ReactionManager();
+        private ReactionManager()
+        {
+        }
+        public static ReactionManager GetReactionManager()
+        {
+            return _instance;
+        }
         TaskManager taskManager = TaskManager.GetTaskManager();
         CommentManager commentManager = CommentManager.GetCommentManager();
         public bool AddReactionToTask(long  reactedById,long taskId)
         {
-            ZTask task = new ZTask();
-            task = taskManager.GetZTask(taskId);
+            ZTask task = taskManager.GetZTask(taskId);
             foreach(var reaction in task.Reaction)
             {
                 if (reaction.ReactedById == reactedById)

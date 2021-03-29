@@ -8,13 +8,13 @@ namespace ProjectManagment.Data
 {
     class TaskManager
     {
-        private static readonly TaskManager instance = new TaskManager();
+        private static readonly TaskManager _instance = new TaskManager();
         private TaskManager()
         {
         }
         public static TaskManager GetTaskManager()
         {
-            return instance;
+            return _instance;
         }
 
         private List<ZTask> TaskList = new List<ZTask>();
@@ -62,6 +62,7 @@ namespace ProjectManagment.Data
                     task.AssignedDate = updateTask.AssignedDate;
                     task.TaskName = updateTask.TaskName;
                     task.DueDate = updateTask.DueDate;
+                    task.Comment = updateTask.Comment;
                 }
             }
         }
